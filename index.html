@@ -1,0 +1,219 @@
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   <link rel="stylesheet" href="style.css">
+   <title>Document</title>
+</head>
+<body>   
+    <div class="container">
+    <!--       <div class="stickyBox">
+            <div class="header">
+            <h3>Sticky Note</h3>
+            <div class="editButton">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.436 44.088">
+                    <g id="edit" transform="translate(0 2)">
+                    <path id="Path_4556" data-name="Path 4556" d="M27.432,0c.668.189,1.349.339,2,.575a6.462,6.462,0,0,1,2.487,1.7c.527.557,1.063,1.107,1.581,1.672a7.514,7.514,0,0,1-.169,10.25Q24.184,23.388,15,32.543a6.045,6.045,0,0,1-3.352,1.488c-2.28.438-4.548.943-6.832,1.357A4.2,4.2,0,0,1,.147,32.3a5.817,5.817,0,0,1,.091-2.878c.467-2.177.917-4.358,1.381-6.537a4.829,4.829,0,0,1,1.317-2.46q9.1-9.122,18.2-18.245A7.263,7.263,0,0,1,25.309.077,1.4,1.4,0,0,0,25.541,0ZM4.2,31.231a1.819,1.819,0,0,0,.229,0c2.385-.4,4.77-.8,7.152-1.219a1.325,1.325,0,0,0,.661-.339c1.375-1.356,2.731-2.731,4.093-4.1q6.927-6.959,13.853-13.918a3.271,3.271,0,0,0-.005-5q-.723-.729-1.453-1.452A3.343,3.343,0,0,0,24,5.194Q14.956,14.245,5.927,23.315a1.17,1.17,0,0,0-.283.563c-.277,1.323-.534,2.651-.794,3.978-.217,1.11-.429,2.222-.652,3.374" transform="translate(0 -2)" fill="#1a1818"/>
+                    <path id="Path_4557" data-name="Path 4557" d="M17.992,346.415q7.7,0,15.409,0a2.071,2.071,0,0,1,2.149,1.648,2.01,2.01,0,0,1-1.935,2.381c-.123.008-.246.005-.37.005H2.591a2.013,2.013,0,0,1-2.049-1.392,1.976,1.976,0,0,1,2-2.653c5.15.026,10.3.01,15.45.01" transform="translate(-0.393 -308.362)" fill="#1a1818"/>
+                    </g>
+                </svg>
+            </div>
+            </div>
+            <div class="content">
+            <p>
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem illo nostrum provident aliquid ipsa iste adipisci sapiente expedita ipsum quaerat, nam voluptatum perferendis neque deserunt quia cum labore! Libero, reprehenderit.
+            </p>
+            </div>
+            <div class="footer">
+            <p class="dateNtime">
+                <span class="time">12:39 PM</span>
+                <span>&nbsp; | &nbsp;</span>
+                <span class="date">11 Nov 2021</span>
+            </p>
+            </div>
+        </div> -->
+        <div id="addNew" class="addNewBox" title="Add New">&#43;</div>
+    </div>
+    <div class="popupOverlay" style="display: none;">
+        <div class="stickyFormContainer">
+            <div class="closeIcon closePopup">&times;</div>
+            <div class="stickyForm">
+                <div class="stickyHeader">
+                    <h3>Sticky Notes</h3>
+                    <ul class="stickyColors">
+                        <li data-color="#FFEB3B" class="active"></li>
+                        <li data-color="#AEEA00"></li>
+                        <li data-color="#80DEEA"></li>
+                        <li data-color="#FF80AB"></li>
+                        <li data-color="#FF9E00"></li>
+                        <li data-color="#FFFFFF"></li>
+                    </ul>
+                </div>
+                <div class="stickyContent">
+                    <div class="textarea" style="--fontSize: 1.5rem;" contentEditable></div>
+                </div>
+                <div class="stickyFooter">
+                    <button class="close closePopup cancel">Cancel</button>
+                    <button disabled class="save">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const addNewButton = document.querySelector('#addNew');
+        const pupupContainer = document.querySelector('.popupOverlay');
+        const pupupCloseButtons = document.querySelectorAll('.closePopup');
+        const mainContainer = document.querySelector('.container');
+        const textareaContainer = document.querySelector('.stickyContent');
+        const textarea = document.querySelector('.textarea');
+        const allColors = document.querySelectorAll('.stickyColors li');
+        const saveButton = document.querySelector('.save');
+        const cancleButton = document.querySelector('.cancel');
+        
+        // Unique ID Generator
+        const uniqueId = range => {
+            let result = '';
+            const letters = '0123456789~!@#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            for(let i = 0; i < range; i++) result += letters.charAt(Math.floor(Math.random() * letters.length));
+            return result;
+        }
+
+        let uniqueFirstID = uniqueId(10);
+        let stickyData = [
+            {
+                id: uniqueFirstID,
+                content: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem illo nostrum provident aliquid ipsa iste adipisci sapiente expedita ipsum quaerat, nam voluptatum perferendis neque deserunt quia cum labore! Libero, reprehenderit.',
+                time: '12.36 pm',
+                date: '11 Nov 2021',
+                bgColor: '#FFEB3B',
+            },
+        ];
+
+        // color sele   ctions
+        let selectedColor = '#FFEB3B';
+        allColors.forEach(colorItem => {
+            colorItem.addEventListener('click', function chooseColor() {
+                allColors.forEach(item => item.classList.remove('active'));
+                this.classList.add('active');
+                let thisColor = this.getAttribute('data-color');
+                selectedColor = thisColor;
+                textareaContainer.style.backgroundColor = thisColor;
+            });            
+        });
+
+        // fontSize update
+        textarea.addEventListener('input', function() {
+            if(this.innerText.length > 150) this.style.setProperty("--fontSize", `1rem`);
+            else this.style.setProperty('--fontSize', '1.5rem');
+
+            if(this.innerText.length > 3) saveButton.removeAttribute('disabled');
+            else saveButton.setAttribute('disabled', 'disabled');
+        });
+        const createSticky = function (array) {
+            array.map((item, index) => {   
+                const newSticky = `<div class="stickyBox" id="${item.id}" style="background-color: ${item.bgColor}">
+                        <div class="header">
+                            <h3>Sticky Note</h3>
+                            <div class="editButton" id="${item.id}">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.436 44.088">
+                                    <g id="edit" transform="translate(0 2)">
+                                    <path id="Path_4556" data-name="Path 4556" d="M27.432,0c.668.189,1.349.339,2,.575a6.462,6.462,0,0,1,2.487,1.7c.527.557,1.063,1.107,1.581,1.672a7.514,7.514,0,0,1-.169,10.25Q24.184,23.388,15,32.543a6.045,6.045,0,0,1-3.352,1.488c-2.28.438-4.548.943-6.832,1.357A4.2,4.2,0,0,1,.147,32.3a5.817,5.817,0,0,1,.091-2.878c.467-2.177.917-4.358,1.381-6.537a4.829,4.829,0,0,1,1.317-2.46q9.1-9.122,18.2-18.245A7.263,7.263,0,0,1,25.309.077,1.4,1.4,0,0,0,25.541,0ZM4.2,31.231a1.819,1.819,0,0,0,.229,0c2.385-.4,4.77-.8,7.152-1.219a1.325,1.325,0,0,0,.661-.339c1.375-1.356,2.731-2.731,4.093-4.1q6.927-6.959,13.853-13.918a3.271,3.271,0,0,0-.005-5q-.723-.729-1.453-1.452A3.343,3.343,0,0,0,24,5.194Q14.956,14.245,5.927,23.315a1.17,1.17,0,0,0-.283.563c-.277,1.323-.534,2.651-.794,3.978-.217,1.11-.429,2.222-.652,3.374" transform="translate(0 -2)" fill="#1a1818"/>
+                                    <path id="Path_4557" data-name="Path 4557" d="M17.992,346.415q7.7,0,15.409,0a2.071,2.071,0,0,1,2.149,1.648,2.01,2.01,0,0,1-1.935,2.381c-.123.008-.246.005-.37.005H2.591a2.013,2.013,0,0,1-2.049-1.392,1.976,1.976,0,0,1,2-2.653c5.15.026,10.3.01,15.45.01" transform="translate(-0.393 -308.362)" fill="#1a1818"/>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <p class="stickyContent">${item.content}</p>
+                        </div>
+                        <div class="footer">
+                            <p class="dateNtime">
+                            <span class="time">${item.time}</span>
+                            <span>&nbsp; | &nbsp;</span>
+                            <span class="date">${item.date}</span>
+                            </p>
+                        </div>
+                    </div>`;
+                mainContainer.insertAdjacentHTML('beforeEnd', newSticky);
+            });
+        }
+        let firstLoad = true;
+        if(firstLoad) createSticky(stickyData);
+
+        // Open Popup
+        const openPopup = () => pupupContainer.style.display = 'block';
+        addNewButton.addEventListener('click', () => openPopup());
+
+        // reset form
+        const resetForm = () => textarea.innerText = '';
+        
+        const closePopup = () => {
+            pupupContainer.style.display = 'none';
+            resetForm();
+        }
+        // close Popup
+        pupupCloseButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                var proceed = confirm("Are you sure you want to cancel?");                
+                proceed ? closePopup() : openPopup();
+            });
+        });
+
+
+        // Form Validation
+        saveButton.addEventListener('click', function(e) {
+            const date = new Date();
+            const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+            const timeOptions = { hour: "2-digit", minute: "2-digit" };
+
+            let todayDate  = date.toLocaleDateString("en-US", dateOptions);
+            let currentTime  = date.toLocaleTimeString("en-US", timeOptions);
+
+            let newEntry = {
+                id: uniqueId(10),
+                content: textarea.innerText,
+                time: currentTime.toLocaleLowerCase(),
+                date: todayDate,
+                bgColor: selectedColor,
+            };
+
+            if(textarea.innerText.length < 3) {
+                alert('Please, Enter your sticky notes at 3 letters');
+            } else {
+                stickyData.unshift(newEntry);
+                let newArray = [...stickyData, newEntry]
+                console.log(stickyData)
+                firstLoad = false;
+                if(!firstLoad) createSticky(stickyData);
+
+                closePopup();
+            }
+        });
+        
+        const rgbToHex = (r, g, b) => "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        // Edit Sticky Notes
+        const updateButtons = document.querySelectorAll('.editButton');
+        const updateNote = function(e) {
+            console.log(e.target.id);
+            const mainParent = e.target.parentNode.parentNode;
+            const prevContent = mainParent.querySelector('.stickyContent').innerText;
+            const prevBgColor = mainParent.style.getPropertyValue('background-color');
+            const prevTime = mainParent.querySelector('.time').innerText;
+            const prevDate = mainParent.querySelector('.date').innerText;
+
+            // console.log(prevContent);
+            console.log(prevBgColor);
+            console.log(prevTime);
+            console.log(prevDate);
+        }
+        updateButtons.forEach(updateButton => {
+            updateButton.addEventListener('click', function(e) {
+                updateNote(e)                
+            })
+        })
+
+    </script>
+</body>
+</html>

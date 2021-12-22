@@ -1,0 +1,351 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
+*, *::before, *::after {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+}
+
+:root {
+  --white: #ffffff;
+  --black: #000000;
+  --border-color: #333;
+}
+
+.container {
+  /* background-image: linear-gradient(45deg, #fdfbfb 0%, #ebedee 100%); */
+  background-color: #f1f1f1;
+  width: 100%;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  padding: 1.25rem;
+  color: var(--black);
+  background-color: #222;
+  gap: 1.35rem;
+}
+
+.stickyBox {
+  width: 100%;
+  max-width: 350px;
+  background-color: var(--white);
+  border-radius: 8px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.06);
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.06);
+  padding: 1.2rem;
+}
+
+.addNewBox {
+  background-color: var(--white);
+  padding: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 40px;
+  cursor: pointer;
+  -webkit-transition: all .3s ease-in;
+  transition: all .3s ease-in;
+  position: absolute;
+  bottom: 5vh;
+  right: 5vh;
+  -webkit-box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.addNewBox:hover {
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+  background-color: #FFEB3B;
+  color: var(--black);
+}
+
+.stickyBox .header {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-bottom: .3rem;
+  margin-bottom: .5rem;
+}
+
+.stickyBox .header .editButton {
+  width: 35px;
+  height: 35px;
+  margin-left: 1rem;
+  border-radius: 35px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: .6rem;
+  -webkit-transition: all .3s ease-in;
+  transition: all .3s ease-in;
+  cursor: pointer;
+}
+
+.stickyBox .header .editButton svg {
+  width: 100%;
+}
+
+.stickyBox .header .editButton:hover {
+  background-color: var(--black);
+}
+
+.stickyBox .header .editButton:hover svg path {
+  fill: var(--white);
+}
+
+.stickyBox .footer {
+  margin-top: 0.75rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.stickyBox .footer .dateNtime {
+  font-size: 13px;
+}
+
+/* Overlay */
+.popupOverlay {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  -webkit-backdrop-filter: blur(0.5rem);
+          backdrop-filter: blur(0.5rem);
+  z-index: 10;
+}
+
+.popupOverlay .stickyFormContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.popupOverlay .stickyFormContainer .closeIcon {
+  position: absolute;
+  width: clamp(35px, 4vw, 60px);
+  height: clamp(35px, 4vw, 60px);
+  top: 2vw;
+  right: 2vw;
+  font-size: 3rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-weight: 100;
+  -webkit-transition: all .3s ease-in;
+  transition: all .3s ease-in;
+  border-radius: 60px;
+  color: white;
+  cursor: pointer;
+}
+
+.popupOverlay .stickyFormContainer .closeIcon:hover {
+  background-color: red;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  background-color: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyHeader {
+  background-color: var(--white);
+  padding-bottom: .85rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyHeader .stickyColors {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  list-style: none;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyHeader .stickyColors li {
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+  background-color: #ddd;
+  margin-left: .5rem;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyHeader .stickyColors li:after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: calc(8px * 1.6);
+  border-right: 3px solid white;
+  border-bottom: 3px solid white;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  margin: -5px 0 0 -1px;
+  opacity: 0;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyHeader .stickyColors li.active:after {
+  opacity: 1;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyHeader .stickyColors li:nth-child(1) {
+  background-color: #FFEB3B;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyHeader .stickyColors li:nth-child(2) {
+  background-color: #AEEA00;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyHeader .stickyColors li:nth-child(3) {
+  background-color: #80DEEA;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyHeader .stickyColors li:nth-child(4) {
+  background-color: #FF80AB;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyHeader .stickyColors li:nth-child(5) {
+  background-color: #FF9E00;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyHeader .stickyColors li:nth-child(6) {
+  background-color: #FFFFFF;
+  border: 1px solid #ccc;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyHeader .stickyColors li:nth-child(6)::after {
+  border-color: #444;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyContent {
+  width: 100%;
+  min-height: 150px;
+  background-color: #FFEB3B;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyContent .textarea {
+  width: 100%;
+  min-height: 150px;
+  border: 0;
+  padding: .95rem 1.5rem;
+  font-size: var(--fontSize);
+  font-weight: 300;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyContent .textarea:focus {
+  outline: none;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyFooter {
+  position: relative;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyFooter button {
+  padding: .6rem 1.5rem;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  -webkit-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
+  cursor: pointer;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyFooter button:not(:last-child) {
+  margin-right: 0.75rem;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyFooter button.save, .popupOverlay .stickyFormContainer .stickyForm .stickyFooter button:hover {
+  background-color: #e6e6e6;
+  border-color: #e6e6e6;
+}
+
+.popupOverlay .stickyFormContainer .stickyForm .stickyFooter button.save:hover {
+  background-color: #000080;
+  color: white;
+}
