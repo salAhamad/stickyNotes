@@ -17,14 +17,17 @@
    background-color: #f1f1f1;
    width: 100%;
    min-height: 100vh;
-   display: flex;
-   flex-wrap: wrap;
-   align-content: flex-start;
-   align-items: flex-start;
-   padding: 1.25rem;
    color: var(--black);
-   background-color: #222;
-   gap: 1.35rem;
+   background-color: #3a3a3a;
+//    background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+   .stickyNotesContainer {
+       display: flex;
+       flex-wrap: wrap;
+       align-content: flex-start;
+       align-items: flex-start;
+       gap: 1.35rem;
+       padding: 1.25rem;
+   }
 }
 
 .stickyBox {
