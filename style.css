@@ -118,6 +118,7 @@
 
 .stickyBox .header .editButton svg {
   width: 100%;
+  pointer-events: none;
 }
 
 .stickyBox .header .editButton:hover {
@@ -309,6 +310,8 @@
   padding: .95rem 1.5rem;
   font-size: var(--fontSize);
   font-weight: 300;
+  -webkit-transition: all .25s ease-in;
+  transition: all .25s ease-in;
 }
 
 .popupOverlay .stickyFormContainer .stickyForm .stickyContent .textarea:focus {

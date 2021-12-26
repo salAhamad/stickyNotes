@@ -79,7 +79,7 @@
             padding: .6rem;
             transition: all .3s ease-in;
             cursor: pointer;
-            svg {width: 100%;}
+            svg {width: 100%; pointer-events: none;}
             &:hover { 
                 background-color: var(--black); 
                 svg path { fill: var(--white);}
@@ -194,6 +194,7 @@
                     padding: .95rem 1.5rem;
                     font-size: var(--fontSize);
                     font-weight: 300;
+                    transition: all .25s ease-in;
                     &:focus {outline: none;}
                 }
             }

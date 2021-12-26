@@ -19,12 +19,13 @@
                 <div class="stickyHeader">
                     <h3>Sticky Notes</h3>
                     <ul class="stickyColors">
-                        <li data-color="#FFEB3B" class="active"></li>
-                        <li data-color="#AEEA00"></li>
-                        <li data-color="#80DEEA"></li>
-                        <li data-color="#FF80AB"></li>
-                        <li data-color="#FF9E00"></li>
-                        <li data-color="#FFFFFF"></li>
+                        <li data-color="rgb(255, 235, 59)" class="active"></li>
+                        <li data-color="rgb(174, 234, 0)"></li>
+                        <li data-color="rgb(128, 222, 234)"></li>
+                        <li data-color="rgb(255, 128, 171)"></li>
+                        <li data-color="rgb(255, 158, 0)"></li>
+                        <li data-color="rgb(255, 255, 255)"></li>
+                        
                     </ul>
                 </div>
                 <div class="stickyContent">
@@ -32,7 +33,7 @@
                 </div>
                 <div class="stickyFooter">
                     <button class="close closePopup cancel">Cancel</button>
-                    <button disabled class="save">Save</button>
+                    <button disabled class="save addNewSticky">Save</button>
                 </div>
             </div>
         </div>
@@ -45,8 +46,17 @@
         const textareaContainer = document.querySelector('.stickyContent');
         const textarea = document.querySelector('.textarea');
         const allColors = document.querySelectorAll('.stickyColors li');
-        const saveButton = document.querySelector('.save');
+        const saveButton = document.querySelector('.addNewSticky');
         const cancleButton = document.querySelector('.cancel');
+
+        let editMode = false;
+
+        // Getting data from local storage
+        const getLocalStorageData = () => JSON.parse(localStorage.getItem('stickyNotesData'));
+        let stickyOldData = [];
+        if(getLocalStorageData()) stickyOldData = getLocalStorageData();
+        localStorage.setItem('stickyNotesData', JSON.stringify(stickyOldData));
+        let allLocalStorageData = getLocalStorageData();
 
         // Unique ID Generator
         const uniqueId = range => {
@@ -66,10 +76,8 @@
                 bgColor: '#FFEB3B',
             },
         ];
-
-
         
-        // color sele   ctions
+        // color selections
         let selectedColor = '#FFEB3B';
         allColors.forEach(colorItem => {
             colorItem.addEventListener('click', function chooseColor() {
@@ -91,10 +99,6 @@
         });
 
         // Creating Sticky Notes
-        const dummyStickyData = [];
-        localStorage.setItem('stickyNotesData', JSON.stringify(dummyStickyData));
-        let localStorageData = JSON.parse(localStorage.getItem('stickyNotesData'));
-
         const createSticky = function (array) {
             array.map((item, index) => {   
                 const newSticky = `<div class="stickyBox" id="${item.id}" style="background-color: ${item.bgColor}">
@@ -123,6 +127,7 @@
                 mainContainer.insertAdjacentHTML('afterbegin', newSticky);
             });
         }        
+        createSticky(allLocalStorageData);
 
 
         // Open Popup
@@ -131,22 +136,31 @@
 
         // reset form
         const resetForm = () => textarea.innerText = '';
-        
-        const closePopup = () => {
+        const closePopup = () => {        
             pupupContainer.style.display = 'none';
             resetForm();
         }
+        
         // close Popup
         pupupCloseButtons.forEach(button => {
             button.addEventListener('click', function() {
-                var proceed = confirm("Are you sure you want to cancel?");                
-                proceed ? closePopup() : openPopup();
+                var proceed = confirm("Are you sure you want to cancel?");
+
+                // Checking button class
+                if(saveButton.classList.contains('updateSticky')) {
+                    saveButton.classList.remove('updateSticky');
+                    saveButton.classList.add('addNewSticky');
+                    saveButton.innerText = 'Save';
+                }
+
+                // closing popup overlay based on conditions
+                proceed ? closePopup() : openPopup();                
             });
         });
 
 
         // Form Validation
-        saveButton.addEventListener('click', function() {
+        function newStickyData() {
             const date = new Date();
             const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
             const timeOptions = { hour: "2-digit", minute: "2-digit" };
@@ -162,35 +176,55 @@
                 bgColor: selectedColor,
             };
 
-            let old_data = JSON.parse(localStorage.getItem('stickyNotesData'));
+            let old_data = getLocalStorageData();
             old_data.push(newEntry);
-            dummyStickyData.push(newEntry);            
             localStorage.setItem('stickyNotesData', JSON.stringify(old_data));
-
-            createSticky(dummyStickyData);
-            closePopup();            
+            closePopup();
+            window.location.reload();
+        }
+        saveButton.addEventListener('click', function(e) {            
+            if(e.target.classList.contains('addNewSticky')) {
+                newStickyData();
+            } else if (e.target.classList.contains('updateSticky')) {
+                updateStickyNote();
+            }
             
         });
         
-        const rgbToHex = (r, g, b) => "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        function updateStickyNote() {
+            alert('salman');
+        }
+        
         // Edit Sticky Notes
-        const updateButtons = document.querySelectorAll('.editButton');
-        const updateNote = function(e) {
-            console.log(e.target.id);
-            const mainParent = e.target.parentNode.parentNode;
+        const editButtons = document.querySelectorAll('.editButton');
+        const editNotes = function(e) {
+            const mainParent = e.target.parentElement.parentElement;
+            const thisId = e.target.id;
+            const thisParentId = mainParent.id;
+
             const prevContent = mainParent.querySelector('.stickyContent').innerText;
-            const prevBgColor = mainParent.style.getPropertyValue('background-color');
+            const prevBgColor = mainParent.style.getPropertyValue('background-color');           
             const prevTime = mainParent.querySelector('.time').innerText;
             const prevDate = mainParent.querySelector('.date').innerText;
+            
+            // Getting existing bg-color and selected color dot
+            textareaContainer.style.backgroundColor = prevBgColor;
+            allColors.forEach(item => item.classList.remove('active'));
+            const selectedLi = document.querySelector(`[data-color="${prevBgColor}"]`);
+            selectedLi.classList.add('active');
+            
+            // Adding Class on save button to update the existing content
+            const updateButton = document.querySelector('.stickyFormContainer .save');
+            updateButton.classList.remove('addNewSticky');
+            updateButton.classList.add('updateSticky');
+            updateButton.innerText = 'Update';
 
-            // console.log(prevContent);
-            console.log(prevBgColor);
-            console.log(prevTime);
-            console.log(prevDate);
+            textarea.innerText = prevContent;
+            openPopup();
         }
-        updateButtons.forEach(updateButton => {
+        editButtons.forEach(updateButton => {
             updateButton.addEventListener('click', function(e) {
-                updateNote(e)                
+                editNotes(e);
             })
         })
 
