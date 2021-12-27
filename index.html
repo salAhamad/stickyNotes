@@ -97,7 +97,7 @@
             if(this.innerText.length > 3) saveButton.removeAttribute('disabled');
             else saveButton.setAttribute('disabled', 'disabled');
         });
-
+      
         // Creating Sticky Notes
         const createSticky = function (array) {
             array.map((item, index) => {   
@@ -129,7 +129,6 @@
         }        
         createSticky(allLocalStorageData);
 
-
         // Open Popup
         const openPopup = () => pupupContainer.style.display = 'block';
         addNewButton.addEventListener('click', () => openPopup());
@@ -158,7 +157,6 @@
             });
         });
 
-
         // Form Validation
         function newStickyData() {
             const date = new Date();
@@ -182,13 +180,12 @@
             closePopup();
             window.location.reload();
         }
-        saveButton.addEventListener('click', function(e) {            
+        saveButton.addEventListener('click', function(e) {
             if(e.target.classList.contains('addNewSticky')) {
                 newStickyData();
             } else if (e.target.classList.contains('updateSticky')) {
                 updateStickyNote();
             }
-            
         });
         
         function updateStickyNote() {
@@ -197,15 +194,22 @@
         
         // Edit Sticky Notes
         const editButtons = document.querySelectorAll('.editButton');
+        let prevContent, prevBgColor, prevTime, prevDate;
+
+        const checkFontSize = () => {
+            if(prevContent.length > 150) textarea.style.setProperty("--fontSize", `1rem`);
+            else textarea.style.setProperty('--fontSize', '1.5rem');
+        }
+
         const editNotes = function(e) {
             const mainParent = e.target.parentElement.parentElement;
             const thisId = e.target.id;
             const thisParentId = mainParent.id;
 
-            const prevContent = mainParent.querySelector('.stickyContent').innerText;
-            const prevBgColor = mainParent.style.getPropertyValue('background-color');           
-            const prevTime = mainParent.querySelector('.time').innerText;
-            const prevDate = mainParent.querySelector('.date').innerText;
+            prevContent = mainParent.querySelector('.stickyContent').innerText;
+            prevBgColor = mainParent.style.getPropertyValue('background-color');           
+            prevTime = mainParent.querySelector('.time').innerText;
+            prevDate = mainParent.querySelector('.date').innerText;
             
             // Getting existing bg-color and selected color dot
             textareaContainer.style.backgroundColor = prevBgColor;
@@ -220,6 +224,7 @@
             updateButton.innerText = 'Update';
 
             textarea.innerText = prevContent;
+            checkFontSize();
             openPopup();
         }
         editButtons.forEach(updateButton => {

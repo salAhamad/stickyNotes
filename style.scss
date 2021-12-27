@@ -196,6 +196,7 @@
                     font-weight: 300;
                     transition: all .25s ease-in;
                     &:focus {outline: none;}
+                    * {font-size: inherit;}
                 }
             }
             .stickyFooter {

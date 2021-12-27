@@ -318,6 +318,10 @@
   outline: none;
 }
 
+.popupOverlay .stickyFormContainer .stickyForm .stickyContent .textarea * {
+  font-size: inherit;
+}
+
 .popupOverlay .stickyFormContainer .stickyForm .stickyFooter {
   position: relative;
   width: 100%;
